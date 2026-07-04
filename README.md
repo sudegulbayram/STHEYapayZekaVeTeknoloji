@@ -4,11 +4,11 @@ Grup 115
 
 # Takım Üyeleri
 
-Begüm Sude Bölükbaş
-Sudegül Bayram
-Tuğçe Temiz
-Enes Efe
-Hüseyin Emirhan Solak
+-Begüm Sude Bölükbaş
+-Sudegül Bayram
+-Tuğçe Temiz
+-Enes Efe
+-Hüseyin Emirhan Solak
 
 # 📄 Contract Risk Analyzer (RAG)
 
