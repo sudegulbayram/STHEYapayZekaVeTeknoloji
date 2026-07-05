@@ -70,7 +70,7 @@ PDF / JPG / PNG
  │            DeepSeek API                 │
  ├────────────────────┬────────────────────┤
  │  Generation Mode   │   Reasoning Mode   │
- │ (Sentetik Veri)    │   (CoT Risk Analizi)   │
+ │ (Sentetik Veri)    │  (CoT Risk Analizi)│
  └────────────────────┴────────────────────┘
        │
        ▼
