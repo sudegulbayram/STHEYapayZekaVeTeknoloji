@@ -47,27 +47,34 @@ Bu projenin amacı;
 
 ```text
 PDF / JPG / PNG
-        │
-        ▼
-Unlimited-OCR
-        │
-        ▼
-Metin Çıkarma
-        │
-        ▼
-Clause-Based Chunking
-        │
-        ▼
-Embeddings
-        │
-        ▼
-Vector Database
-        │
-        ▼
-DeepSeek (LLM)
-        │
-        ▼
-Risk Analizi
+       │
+       ▼
+ ┌───────────┐
+ │    OCR    │ ◄─── (Custom Pipeline / Unlimited-OCR Benchmark)
+ └─────┬─────┘
+       │
+       ▼
+ Metin Çıkarma & Normalizasyon
+       │
+       ▼
+ Clause-Based Chunking
+       │
+       ▼
+ Embeddings (Hugging Face)
+       │
+       ▼
+ Vector Database (Vektör Veri Tabanı)
+       │
+       ▼
+ ┌─────────────────────────────────────────┐
+ │            DeepSeek API                 │
+ ├────────────────────┬────────────────────┤
+ │  Generation Mode   │   Reasoning Mode   │
+ │ (Sentetik Veri)    │   (CoT Risk Analizi)   │
+ └────────────────────┴────────────────────┘
+       │
+       ▼
+   Risk Analizi & Açıklama Çıktısı
 ```
 
 ---
@@ -96,14 +103,15 @@ Risk Analizi
 
 # 🛠️ Kullanılan Teknolojiler
 
-| Teknoloji | Amaç |
+| Teknoloji / Araç | Projedeki Rolü ve Kullanım Amacı |
 |------------|------|
-| Python | Backend |
-| Unlimited-OCR | OCR |
-| RAG | Bilgi getirme |
-| DeepSeek | Büyük Dil Modeli |
-| Hugging Face | Model barındırma |
-| Git & GitHub | Versiyon kontrol |
+| Python | Projenin ana geliştirme dili; veri işleme pipeline'ları ve backend servislerinin yönetimi |
+| OCR | Doküman türüne göre optimize edilmiş Custom OCR Pipeline ve Unlimited-OCR hibrit yapısı |
+| RAG | Doküman tabanlı bilgi getirme altyapısı (Sprint 2'de belirlenecek kütüphaneler ile entegre edilecek). |
+| DeepSeek (Generation Mode) | Veri kümesini genişletmek amacıyla yüksek kaliteli sentetik veri üretimi. |
+| DeepSeek (Reasoning Mode) | Adım adım Chain of Thought (CoT) analizi. |
+| Hugging Face | Açık kaynaklı modellerin/embedding süreçlerinin barındırılması ve entegrasyonu. |
+| Git & GitHub | Kod tabanı yönetimi, sürüm kontrolü ve ekip içi iş birliği. |
 
 ---
 
