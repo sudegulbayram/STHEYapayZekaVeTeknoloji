@@ -184,7 +184,7 @@ Sprint 1 kapsamında;
 
 | Rol | Sorumluluk |
 |------|------------|
-| Project Manager | Proje planlama ve koordinasyon |
+| Product Owner | Proje planlama ve koordinasyon |
 | Scrum Master | Scrum süreçlerinin yönetimi |
 | Developer | Veri toplama ve ön işleme |
 | Developer | OCR ve Chunking |
