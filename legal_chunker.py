@@ -1,5 +1,96 @@
 import re
 
+CLAUSE_KEYWORDS = {
+    # Kira sözleşmeleri
+    "depozito": "depozito",
+    "kira bedeli": "kira_bedeli",
+    "kira artış": "kira_artis",
+    "tahliye": "tahliye",
+    "kiralanan": "kiralanan",
+    
+    # Ödeme
+    "ücret": "ucret",
+    "ödeme": "odeme",
+    "fatura": "fatura",
+    "gecikme faizi": "gecikme_faizi",
+    "avans": "avans",
+    
+    # Fesih ve sona erme
+    "fesih": "fesih",
+    "sona erme": "sona_erme",
+    "süre": "sure",
+    "yenileme": "yenileme",
+    "uzatma": "uzatma",
+    
+    # Ceza ve tazminat
+    "cezai şart": "cezai_sart",
+    "tazminat": "tazminat",
+    "zarar": "zarar",
+    "hasar": "hasar",
+    
+    # Gizlilik ve fikri mülkiyet
+    "gizlilik": "gizlilik",
+    "gizli bilgi": "gizli_bilgi",
+    "fikri mülkiyet": "fikri_mulkiyet",
+    "telif": "telif",
+    
+    # Sorumluluk
+    "sorumluluk": "sorumluluk",
+    "yükümlülük": "yukumluluk",
+    "garanti": "garanti",
+    "taahhüt": "taahhut",
+    
+    # Sigorta
+    "sigorta": "sigorta",
+    
+    # Devir ve temlik
+    "devir": "devir",
+    "temlik": "temlik",
+    "alt kiracı": "alt_kiraci",
+    
+    # Uyuşmazlık
+    "uyuşmazlık": "uyusmazlik",
+    "tahkim": "tahkim",
+    "mahkeme": "mahkeme",
+    "yargı": "yargi",
+    
+    # Değişiklik
+    "değişiklik": "degisiklik",
+    "tadilat": "tadilat",
+    
+    # İş sözleşmeleri
+    "deneme süresi": "deneme_suresi",
+    "kıdem": "kidem",
+    "ihbar": "ihbar",
+    "fazla mesai": "fazla_mesai",
+    "görev tanımı": "gorev_tanimi",
+
+    "ibra": "ibra",
+    "ibraname": "ibra",
+    "zincirleme": "zincirleme_sozlesme",
+    "belirli süreli": "belirli_sureli",
+    "muacceliyet": "muacceliyet",
+    "ara dinlenme": "ara_dinlenme",
+    "fazla çalışma": "fazla_calisma",
+    "gece çalışması": "gece_calismasi",
+    "haftalık çalışma": "haftalik_calisma",
+    "asgari ücret": "asgari_ucret",
+    "doğum izni": "dogum_izni",
+    "yıllık izin": "yillik_izin",
+    "işe iade": "ise_iade",
+    "rekabet yasağı": "rekabet_yasagi",
+    "zamanaşımı": "zamanasimi",
+    "kefil": "kefil",
+    "bağlantılı sözleşme": "baglantili_sozlesme",
+    "takas": "takas",
+    "arabuluculuk": "arabuluculuk",
+    "ayıplı": "ayipli_teslim",
+    "otomatik uzama": "otomatik_uzama",
+    "esaslı bakım": "esasli_bakim",
+    "erken tahliye": "erken_tahliye",
+    "temerrüt": "temerrut",
+}
+
 class ChunkNode:
     # Hiyerarşik ağaç düğümü. level=0 sözleşme, level=1 bölüm, level=2 madde ifade eder.
     def __init__(self, title, level, content=""):
@@ -16,6 +107,15 @@ class ChunkNode:
             "content": self.content.strip(),
             "children": [child.to_dict() for child in self.children]
         }
+    
+
+def detect_clause_type(text):
+    #Sık kullanılan anahtar kelimelere göre metin parçasının hangi hukuki başlığa ait olduğunu belirler.
+    text_lower = text.lower()
+    found = [clause_type for keyword, clause_type in CLAUSE_KEYWORDS.items() 
+             if keyword in text_lower]
+    
+    return found if found else ["genel"]
 
 def parse_legal_text(full_text):
     # Ham OCR metnini Regex algoritmalarıyla analiz edip hukuki başlıklara (Madde, Fıkra vb.) göre hiyerarşik ağaca dönüştürür.
@@ -70,10 +170,14 @@ def flatten_chunks(node, parent_title=""):
     chunks = []
     current_title = f"{parent_title} > {node.title}" if parent_title and node.level > 0 else node.title
     
-    if node.content and len(node.content) > 10:
+    if node.content and len(node.content) > 60:
         chunks.append({
-            "metadata": {"hierarchy": current_title, "level": node.level},
-            "text": node.content
+            "metadata": {
+                "hierarchy": current_title,
+                "level": node.level,
+                "clause_type": detect_clause_type(node.content)
+            },
+            "text": node.title + "\n" + node.content
         })
         
     for child in node.children:
