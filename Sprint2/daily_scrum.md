@@ -2,13 +2,13 @@
 
 ## 8 Temmuz 2026
 
-Embedding ve chunking modülü üzerinde çalışılmaya başlandı. FAISS altyapısı araştırıldı ve veri seti hazırlıkları devam etti.
+Embedding ve chunking modülü üzerinde çalışılmaya başlandı. Veri seti hazırlıkları devam etti.
 
 ---
 
 ## 12 Temmuz 2026
 
-Yaklaşık 200 örnekten oluşan veri seti oluşturuldu. Embedding ve chunking modülü tamamlandı.
+Yaklaşık 200 örnekten oluşan veri seti oluşturuldu. Embedding ve chunking modülü tamamlandı, FAISS tabanlı vektör altyapısı kuruldu.
 
 ---
 
