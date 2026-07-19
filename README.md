@@ -198,15 +198,15 @@ Sprint 1 kapsamında;
 
 Sprint 1 ve Sprint 2 başarıyla tamamlanmıştır. 
 
-Sözleşme metinlerinin analiz edilebilmesi için gerekli olan temel RAG mimarisi, Vektör Veritabanı (Vector DB) entegrasyonu ve temel risk analizi prototipi hazır durumdadır. Şu anda sistemin kullanıcı ile buluşacağı **web arayüzünün geliştirilmesi** ve modelin **risk/alternatif madde önerilerinin iyileştirilmesi** aşamasına geçilmektedir.
+Sözleşme metinlerinin analiz edilebilmesi için gerekli olan temel RAG mimarisi, Vektör Veritabanı (Vector DB) entegrasyonu ve temel risk analizi prototipi hazır durumdadır. Şu anda sistemin kullanıcı ile buluşacağı web arayüzünün geliştirilmesi ve modelin risk/alternatif madde önerilerinin iyileştirilmesi aşamasına geçilmektedir.
 
 ---
 
 # 📚 Gelecek Çalışmalar (Sprint 3 ve Sonrası)
 
-- Geliştirilen RAG pipeline'ının entegre edileceği kullanıcı dostu bir **Web arayüzünün geliştirilmesi**
-- Analiz edilen riskler için tespit edilen maddelere yönelik **güvenli alternatif madde önerilerinin** sisteme eklenmesi
-- Çıktı kalitesini artırmak için **risk açıklamalarının geliştirilmesi** ve detaylandırılması
+- Geliştirilen RAG pipeline'ının entegre edileceği kullanıcı dostu bir Web arayüzünün geliştirilmesi
+- Analiz edilen riskler için tespit edilen maddelere yönelik güvenli alternatif madde önerilerinin sisteme eklenmesi
+- Çıktı kalitesini artırmak için risk açıklamalarının geliştirilmesi ve detaylandırılması
 - Sistemin doğruluğunu artırmak amacıyla daha büyük ve çeşitli bir Türkçe sözleşme veri seti oluşturulması
 - Daha karmaşık OCR senaryolarının (düşük çözünürlük, farklı formatlar vb.) test edilmesi ve optimize edilmesi
 > Bu proje, Scrum metodolojisi kullanılarak ekip çalışması kapsamında geliştirilmektedir.
