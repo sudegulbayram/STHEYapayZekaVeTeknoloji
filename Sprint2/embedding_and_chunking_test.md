@@ -52,18 +52,15 @@ Eşleşme  : 3 referans bulundu
 * **Eşleşme Başarısı:** Okunan tüm maddeler (18/18) veri tabanındaki referans mevzuat ve emsal kararlarla yüksek doğruluk skorlarıyla eşleşti. Model olarak kullanılan `nezahatkorkmaz/turkce-embedding-bge-m3`, Türkçe hukuki metinlerin vektörel izdüşümlerini çıkarırken başarılı sonuç verdi.
 * **Madde İçi Mantıksal Çıkarımlar:**
   * **Fesih (Madde 16):** İş Kanunu m.2025'e uygun olan maddeler "Geçerli" kümesinde yer alırken, yasal zamanaşımı süresini işçi aleyhine daraltan metinler "Geçersiz" olarak sınıflandırıldı.
-  * **Yetki (Madde 17):** HMK m.1719 uyarınca tacir olmayan kişilerle yapılan ve emredici kuralları esneten yetki kısıtlamaları doğru şekilde tespit edildi.
-  * **Arabuluculuk İhlali (Madde 18):** Zorunlu arabuluculuğu (HUAK m.18/A-19) devre dışı bırakıp doğrudan mahkemeyi işaret eden tebligat/uyuşmazlık maddeleri sistem tarafından riskli olarak işaretlendi.
 * **Vektörel Kümeleme ve Görsel Analizler:**
   * İşlenmiş sözleşmelerde "işçi", "kira", "sözleşme", "işveren" ve "kiracı" gibi anahtar terimlerin frekans ağırlıkları Word Cloud ile başarıyla haritalandırıldı.
-  ![Frekans ve Terim Analizi](image_88fe7f.jpg)
+  ![Frekans ve Terim Analizi](preview.webp)
  
   * Spotlight CE üzerindeki "Similarity Map" sayesinde, OCR ile okunan her bir cümle (clause_text embedding) anlamsal yakınlıklarına göre uzayda gruplandı.
-  ![Benzerlik Haritası 1](image_88fe84.jpg)
-  ![Benzerlik Haritası 2](image_88fe9e.jpg)
+  ![Benzerlik Haritası 1](preview(1).webp)
  
   * 3 boyutlu kümeleme (Bileşen 1, 2, 3) grafiğinde, modelin geçerli (mavi) ve geçersiz (kırmızı) sözleşme maddelerini net sınırlarla iki ayrı sınıf olarak ayırabildiği görüldü.
-  ![3D Vektör Kümeleme](Screenshot_20260719_135630_Claude.jpg)
+  ![3D Vektör Kümeleme](preview(2).webp)
 
 ## Sonuç
-Unlimited-OCR modeli ile çıkarılan metinler, ` newmindai/Mursit-Large-TR-Retrieval` modeli kullanılarak vektör uzayında yüksek doğrulukla sınıflandırılabilmiş ve geçersiz/riskli hükümler emsal mevzuatla başarılı şekilde eşleşmiştir. Sistemin sınıflandırma mantığı projenin Sprint 2 hedefleri doğrultusunda uygun bulunmuştur. Bir sonraki sprintte daha karmaşık sözleşme görüntüleri ve farklı hukuki uyuşmazlık türleri üzerinde doğruluk analizi yapılarak modelin genellenebilme performansı detaylı şekilde değerlendirilecektir.
+Unlimited-OCR modeli ile çıkarılan metinler, `newmindai/Mursit-Large-TR-Retrieval` modeli kullanılarak vektör uzayında yüksek doğrulukla sınıflandırılabilmiş ve geçersiz/riskli hükümler emsal mevzuatla başarılı şekilde eşleşmiştir. Sistemin sınıflandırma mantığı projenin Sprint 2 hedefleri doğrultusunda uygun bulunmuştur. Bir sonraki sprintte SLM ile birleştirilip uçtan uca RAG pipeline'ı tamamlanacaktır.
