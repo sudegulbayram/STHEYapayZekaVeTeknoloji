@@ -170,13 +170,13 @@ Sprint 1 kapsamında;
 
 ---
 
-# 📌 Sprint 2 Hedefleri
+# 📌 Sprint 2 Çıktıları
 
-- Clause-Based Chunking geliştirilmesi
-- Embedding oluşturulması
-- Vector Database entegrasyonu
-- RAG Pipeline oluşturulması
-- Risk analizi prototipinin geliştirilmesi
+- Clause-Based Chunking geliştirildi
+- Embedding oluşturuldu
+- Vector Database entegrasyonu 
+- RAG Pipeline oluşturuldu
+- Risk analizi prototipinin geliştirildi
 
 ---
 
@@ -194,22 +194,19 @@ Sprint 1 kapsamında;
 
 # 📈 Proje Durumu
 
-🟡 **Geliştirme Aşamasında**
+🟡 **Geliştirme Aşamasında **
 
-Sprint 1 başarıyla tamamlanmıştır.
+Sprint 1 ve Sprint 2 başarıyla tamamlanmıştır. 
 
-Şu anda OCR doğrulama süreci tamamlanmış olup Clause-Based Chunking geliştirme aşamasına geçilmektedir.
-
----
-
-# 📚 Gelecek Çalışmalar
-
-- Daha büyük Türkçe sözleşme veri seti oluşturulması
-- Daha karmaşık OCR senaryolarının test edilmesi
-- Risk açıklamalarının geliştirilmesi
-- Güvenli alternatif madde önerileri
-- Web arayüzünün geliştirilmesi
+Sözleşme metinlerinin analiz edilebilmesi için gerekli olan temel RAG mimarisi, Vektör Veritabanı (Vector DB) entegrasyonu ve temel risk analizi prototipi hazır durumdadır. Şu anda sistemin kullanıcı ile buluşacağı **web arayüzünün geliştirilmesi** ve modelin **risk/alternatif madde önerilerinin iyileştirilmesi** aşamasına geçilmektedir.
 
 ---
 
+# 📚 Gelecek Çalışmalar (Sprint 3 ve Sonrası)
+
+- Geliştirilen RAG pipeline'ının entegre edileceği kullanıcı dostu bir **Web arayüzünün geliştirilmesi**
+- Analiz edilen riskler için tespit edilen maddelere yönelik **güvenli alternatif madde önerilerinin** sisteme eklenmesi
+- Çıktı kalitesini artırmak için **risk açıklamalarının geliştirilmesi** ve detaylandırılması
+- Sistemin doğruluğunu artırmak amacıyla daha büyük ve çeşitli bir Türkçe sözleşme veri seti oluşturulması
+- Daha karmaşık OCR senaryolarının (düşük çözünürlük, farklı formatlar vb.) test edilmesi ve optimize edilmesi
 > Bu proje, Scrum metodolojisi kullanılarak ekip çalışması kapsamında geliştirilmektedir.
