@@ -1,7 +1,10 @@
 from pathlib import Path
 import shutil
 
+
 from fastapi import FastAPI, File, HTTPException, UploadFile
+
+from pipeline_service import run_pipeline
 
 
 app = FastAPI(
@@ -37,6 +40,8 @@ async def upload_contract(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     await file.close()
+
+    run_pipeline(str(file_path.resolve()))
 
     return {
         "message": "Dosya başarıyla yüklendi.",

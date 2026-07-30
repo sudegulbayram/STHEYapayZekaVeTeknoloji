@@ -1,4 +1,5 @@
 __pycache__/
 *.pyc
-backend/uploads/*
-!backend/uploads/.gitkeep
+
+uploads/*
+!uploads/.gitkeep

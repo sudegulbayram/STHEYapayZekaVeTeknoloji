@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.vscode/
+
+ocr_ham_metin.txt
+ocr_parcalanmis_metin.txt
