@@ -41,9 +41,13 @@ async def upload_contract(file: UploadFile = File(...)):
 
     await file.close()
 
-    run_pipeline(str(file_path.resolve()))
+    pipeline_result = run_pipeline(str(file_path.resolve()))
 
     return {
-        "message": "Dosya başarıyla yüklendi.",
-        "filename": file_path.name,
-        "saved_path": str(file_path),}
+    "message": "Dosya başarıyla analiz edildi.",
+    "filename": file_path.name,
+    "ocr_text": pipeline_result["ocr_text"],
+    "chunk_count": pipeline_result["chunk_count"],
+    "risk_match_count": pipeline_result["risk_match_count"],
+    "risk_matches": pipeline_result["risk_matches"],
+}
