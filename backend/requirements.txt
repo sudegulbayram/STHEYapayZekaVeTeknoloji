@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+
+easyocr
+faiss-cpu
+sentence-transformers
+torch
+torchvision
+opencv-python-headless
