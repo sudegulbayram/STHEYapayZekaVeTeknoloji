@@ -1,0 +1,245 @@
+=====================================================================================
+        HUKUKİ SÖZLEŞME ANALİZİ - MODEL PERFORMANS KARŞILAŞTIRMA RAPORU
+=====================================================================================
+Model 1: BÜYÜK MODEL (2500 Veri Seti - output)
+Model 2: KÜÇÜK MODEL (200 Veri Seti - outputwithsmallfinetune)
+Toplam Test Sayısı: 10
+-------------------------------------------------------------------------------------
+Model 1 (2500 Veri) Doğruluk Oranı: %90.0 (9/10 Doğru)
+Model 2 (200 Veri)  Doğruluk Oranı: %70.0 (7/10 Doğru)
+=====================================================================================
+
+
+=====================================================================================
+                       DETAYLI SENARYO KARŞILAŞTIRMALARI
+=====================================================================================
+
+-------------------------------------------------------------------------------------
+TEST #1 | Konu: Kıdem Tazminatı Tavanı İhlali
+SÖZLEŞME MADDESİ: "İşçinin kıdem tazminatı, herhangi bir yasal tavan sınırlaması dikkate alınmaksızın son aldığı brüt ücretin 3 katı üzerinden hesaplanarak ödenir."
+BEKLENEN DOĞRU CEVAP: Geçersiz
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Sözleşme maddesi incelendi. 2. 4857 sayılı Kanun'un Ek madde 13'ü uyarınca kıdem tazminatı tavanı, işçinin son brüt ücretinin 10 katını aşamaz. 3. Madde, yasal sınırı aşan bir tavan belirlemiş olup bu nedenle geçersizdir. 4. Bu nedenle madde hukuka aykırıdır.
+</thought>
+
+Sonuç: Geçersiz
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.346/11 uyarınca, işçinin kıdem tazminatı, brüt ücretin 3 katı üzerinden hesaplanmalıdır. 3. Madde, tavan sınırlaması söz konusu olduğunda geçersizdir. 4. Bu nedenle geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+-------------------------------------------------------------------------------------
+TEST #2 | Konu: Deneme Süresi Üst Sınır İhlali
+SÖZLEŞME MADDESİ: "Taraflar işbu sözleşme kapsamında işçinin deneme süresini 6 ay olarak kararlaştırmışlardır."
+BEKLENEN DOĞRU CEVAP: Geçersiz
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde, deneme süresini 6 aya kadar belirlemiştir. 2. İş Kanunu m.22 uyarınca deneme süresi en fazla 3 ay olabilir. 3. 6 aylık süre yasal sınırı aşmaktadır. 4. Bu nedenle madde geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.347/11 uyarınca, işçiye en az 3 ay süreyle deneme süresi verilmelidir. 3. Deneme süresi 6 ay olarak belirlenmiş, bu yeterli süre değildir. 4. Bu nedenle geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+-------------------------------------------------------------------------------------
+TEST #3 | Konu: Tek Taraflı Cezai Şart Yasağı (TBK 420)
+SÖZLEŞME MADDESİ: "İşçi sözleşmeyi haklı bir neden olmaksızın süresinden önce feshederse 50.000 TL cezai şart öder. İşverenin feshinde ise herhangi bir ceza ödenmez."
+BEKLENEN DOĞRU CEVAP: Geçersiz
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde, sadece işçi aleyhine cezai şart öngörmektedir. 2. TBK m.420/19, işçi aleyhine tek taraflı cezai şart yasağı getirir. 3. İşveren için herhangi bir cezai şart öngörülmemesi de, işçi aleyhine tek taraflı cezai şartdır. 4. Bu nedenle madde geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçerli -> YANLIŞ / HALÜSİNASYON [FAILED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.347/12 uyarınca, işçinin feshinde cezai şart ödenememektedir. 3. Madde, işçinin feshinde 50.000 TL cezai şartı ödenememektedir. 4. İşverenin feshinde cezai şart ödenememektedir. 5. Bu nedenle madde geçerlidir.
+</thought>
+
+Sonuç: Geçerli
+
+-------------------------------------------------------------------------------------
+TEST #4 | Konu: Kira Sözleşmesinde Muacceliyet Kaydı Yasağı (TBK 346)
+SÖZLEŞME MADDESİ: "Kiracı, kira bedelini üst üste iki ay ödemezse, kira sözleşmesinin sonuna kadar olan tüm gelecek ayların kira bedelleri muaccel hale gelir ve derhal tahsil edilir."
+BEKLENEN DOĞRU CEVAP: Geçersiz
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Sözleşme incelendi. 2. TBK m.346, kiracının kira bedelinin ödenmemesi halinde temerrüt faizi öngörmez; ancak kira bedelinin geç ödenmesi halinde muacceliyet kaydı geçersizdir. 3. Bu madde, kiracının ödemeyi yapmaması halinde muacceliyet kaydını öngörmektedir. 4. Bu nedenle madde hukuka aykırıdır ve geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.346/11 uyarınca, kira bedeli her ayda ödenmek zorundadır. 3. Madde, kiracıya kira bedeli her iki ayda bile ödenememiş olduğunda tüm gelecek aylarda bedel muaccel hale gelir ve derhal tahsil edilir. 4. Bu tür bir düzenleme, kiracının kira bedeli ödenememesi durumunda tüm gelecek aylarda bedelin tahmini tahliye edilmesini yasaktır. 5. Bu nedenle madde geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+-------------------------------------------------------------------------------------
+TEST #5 | Konu: Yıllık İzin Hakkından Feragat Yasağı
+SÖZLEŞME MADDESİ: "İşçi, şirketin yoğun çalışma dönemlerinde kullanamadığı yıllık ücretli izin haklarından peşinen ve gayrikabili rücu olarak feragat ettiğini kabul eder."
+BEKLENEN DOĞRU CEVAP: Geçersiz
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde, işçinin yıllık izin hakkından önceden feragat etmesini düzenlemektedir. 2. İş Kanunu m.41/7'ye göre, izin hakkından önceden feragat geçersizdir. 3. Bu madde, işçinin izin hakkını kullanmasını engelleyici nitelikte olduğu için hukuka aykırıdır. 4. Sonuç: Geçersiz.
+</thought>
+
+Sonuç: Geçersiz
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçersiz -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.346/17'ye göre, işçinin izin haklarını kullanamadığı sürece feragat edemez. 3. Maddede "uzman" kelimesi kullanılmamaktadır ve bu nedenle işçinin izin haklarını kullanamadığı sürece feragat edememesi gerektiği anlaşılmaktadır. 4. Bu nedenle madde geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+-------------------------------------------------------------------------------------
+TEST #6 | Konu: Kanuna Uygun Fazla Çalışma Maddesi
+SÖZLEŞME MADDESİ: "İşçinin haftalık 45 saati aşan fazla çalışmaları için saatlik ücreti, normal çalışma saatlik ücretinin %50 zamlı miktarı üzerinden hesaplanarak ödenir."
+BEKLENEN DOĞRU CEVAP: Geçerli
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçersiz -> YANLIŞ / HALÜSİNASYON [FAILED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde, fazla çalışma için normal saatlik ücretin %50 zamlı olarak ödeneceğini düzenlemektedir. 2. İş Kanunu m.397'ye göre fazla mesai ücreti, işçinin aylık brüt ücreti üzerinden %7.5 zamlı olarak hesaplanır ve en çok 45 saatten fazla olmamalıdır. 3. Burada %50 zamlı ödeme öngörülmüş olup, bu yasal sınırı aşmaktadır. 4. Ayrıca, fazla mesai ücretinin %7.5 zamlı olduğunu belirtmeden 'normal saatlik ücretinin %50 zamlı' ifadesi kullanılmıştır, bu da kanuna aykırıdır. 5. Bu nedenle madde geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçersiz -> YANLIŞ / HALÜSİNASYON [FAILED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.37/112'ye göre işçinin fazla çalışma süresi için saatlik ücretin %50 zamlı tutulması yasaktır. 3. Bu madde, fazla çalışma süresi için %50 zamlı ücret ödenmesini şart koşmaktadır. 4. Bu nedenle geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+-------------------------------------------------------------------------------------
+TEST #7 | Konu: Kanuna Uygun Makul Rekabet Yasağı
+SÖZLEŞME MADDESİ: "İşçi, sözleşmenin sona ermesinden itibaren 1 yıl süreyle ve sadece İstanbul ili sınırları içerisinde işverenle aynı konuda faaliyet gösteren rakip firmalarda çalışmamayı taahhüt eder."
+BEKLENEN DOĞRU CEVAP: Geçerli
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçerli -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Sözleşme maddesi incelendi. 2. TBK m.445/134'e göre rekabet yasağı süresi 2 yılı aşamaz. 3. Burada 1 yıllık süre makul olup kanuna uygundur. 4. Coğrafi sınır (İstanbul) belirli ve işverenin fiili faaliyet alanı ile uyumludur. 5. Bu nedenle madde geçerlidir.
+</thought>
+
+Sonuç: Geçerli
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçersiz -> YANLIŞ / HALÜSİNASYON [FAILED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.342/11 uyarınca, işçinin işverenin ilan ettiği rakip firmaların işe alınması hakkını kısıtlaması yasaktır. 3. Maddede, işçinin 1 yıl süreyle ve İstanbul'la sınırlı olarak çalışabileceği belirtilmiştir. 4. Bu nedenle, madde geçersizdir.
+</thought>
+
+Sonuç: Geçersiz
+
+-------------------------------------------------------------------------------------
+TEST #8 | Konu: Kanuna Uygun Yıllık Ücretli İzin Maddesi
+SÖZLEŞME MADDESİ: "İşçiye verilecek yıllık ücretli izin süreleri, İş Kanunu'nda kıdem süresine göre belirlenen asgari yasal izin sürelerinden az olmamak üzere uygulanacaktır."
+BEKLENEN DOĞRU CEVAP: Geçerli
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçerli -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde, yıllık izin sürelerinin İş Kanunu'nun asgari sürelerine atıf yaparak düzenlenmiştir. 2. İş Kanunu m.397, yıllık izin hakkının işçinin talebi üzerine ve işverenin onayı ile kullanılabileceğini düzenler; bu düzenleme, izin hakkı değil, kullanım koşullarını düzenlemektedir. 3. Asgari süreler, işçinin izin hakkını korumaktadır. 4. Bu nedenle madde kanuna uygun ve geçerlidir.
+</thought>
+
+Sonuç: Geçerli
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçerli -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. Asgari yasal izin süreleri, iş kanunu ile belirlenmiştir. 3. Maddede, işkanunun kıdem süresiyle ilgileneceği ifade edilmiştir. 4. Bu nedenle madde geçerlidir.
+</thought>
+
+Sonuç: Geçerli
+
+-------------------------------------------------------------------------------------
+TEST #9 | Konu: Kanuna Uygun Kira Ödeme Maddesi
+SÖZLEŞME MADDESİ: "Kiracı, aylık kira bedeli olan 25.000 TL'yi her ayın 5. günü akşamına kadar kiralayanın belirteceği banka hesabına havale/EFT yoluyla ödeyecektir."
+BEKLENEN DOĞRU CEVAP: Geçerli
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçerli -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Sözleşme incelendi. 2. Kira bedeli TL olarak belirlenmiş, ödeme şekli havale/EFT olup banka kanalıyla güvenli bir ödeme yöntemidir. 3. TBK m.340/1'e uygun olarak kira bedeli miktarı ve ödeme yöntemi açıkça belirtilmiştir. 4. Bu nedenle madde geçerlidir.
+</thought>
+
+Sonuç: Geçerli
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçerli -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.346/127'e göre, kira bedeli ödenmesi için kiracının banka hesabına havale/EFT yoluyla ödeme yapması zorunludur. 3. Maddede ödeme tarih ve yöntem belirlenmiştir. 4. Bu nedenle madde geçerlidir.
+</thought>
+
+Sonuç: Geçerli
+
+-------------------------------------------------------------------------------------
+TEST #10 | Konu: Kanuna Uygun Gizlilik Sözleşmesi Maddesi
+SÖZLEŞME MADDESİ: "Taraflar, işbu sözleşme kapsamında öğrendikleri ticari sırları ve müşteri bilgilerini sözleşme süresince ve sözleşmenin sona ermesinden itibaren 2 yıl boyunca 3. kişilerle paylaşmamayı taahhüt eder."
+BEKLENEN DOĞRU CEVAP: Geçerli
+
+--- [MODEL 1: 2500 VERİ] ---
+Tahmin: Geçerli -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Sözleşme incelendi. 2. TBK m.348/son uyarınca rekabet yasağı sözleşmelerinde rekabet eden kişi ve tarih belirtilmelidir. 3. Bu madde sadece '3. kişiler' ifadesiyle rekabet eden kişiyi belirtmediği gibi, ayrıca süre de 2 yıllık makul bir süre olarak kabul edilmiştir. 4. Bu nedenle madde geçerlidir.
+</thought>
+
+Sonuç: Geçerli
+
+--- [MODEL 2: 200 VERİ] ---
+Tahmin: Geçerli -> DOĞRU [PASSED]
+Akıl Yürütme (CoT):
+<thought>
+1. Madde incelendi. 2. TBK m.349/12 uyarınca, işbu taraflar, sözleşme süresince ve sözleşmenin sona ermesinden itibaren 2 yıl boyunca 3. kişilerle ticari sırları ve müşteri bilgilerini paylaşmamakta zorunluluk mevcut. 3. Madde, bu süre için 2 yıl belirlemektedir ve TBK m.349/12'ye uygun bir süre aralığı içermektedir. 4. Bu nedenle geçerlidir.
+</thought>
+
+Sonuç: Geçerli
