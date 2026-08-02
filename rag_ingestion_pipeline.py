@@ -2,7 +2,8 @@ import os
 import sys
 import io
 import easyocr
-from image_preprocessing import preprocess_for_ocr
+from image_preprocessing import preprocess_for_ocr, preprocess_image_array
+from pdf_utils import pdf_to_images
 from legal_chunker import parse_legal_text, flatten_chunks
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -16,11 +17,21 @@ def run_pipeline(image_filename):
     if not os.path.exists(image_path):
         return
 
-    processed_image = preprocess_for_ocr(image_path, save_debug=False)
-    
     reader = easyocr.Reader(['tr'])
-    ocr_result = reader.readtext(processed_image, detail=0)
-    full_text = "\n".join(ocr_result)
+
+    if image_path.lower().endswith(".pdf"):
+        # PDF: her sayfayı görüntüye çevirip aynı OCR ön işleme hattından geçiriyoruz.
+        pages = pdf_to_images(image_path)
+        page_texts = []
+        for page_img in pages:
+            processed_page = preprocess_image_array(page_img)
+            page_result = reader.readtext(processed_page, detail=0)
+            page_texts.append("\n".join(page_result))
+        full_text = "\n\n".join(page_texts)
+    else:
+        processed_image = preprocess_for_ocr(image_path, save_debug=False)
+        ocr_result = reader.readtext(processed_image, detail=0)
+        full_text = "\n".join(ocr_result)
     
     raw_txt_path = os.path.join(current_dir, "ocr_ham_metin.txt")
     with open(raw_txt_path, "w", encoding="utf-8") as f:

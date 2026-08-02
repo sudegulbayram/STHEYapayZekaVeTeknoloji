@@ -35,15 +35,24 @@ def deskew(image):
     
     return rotated
 
+def preprocess_image_array(img):
+    """
+    Doğrudan hafızadaki (in-memory) görüntü dizisini işler.
+    PDF sayfaları gibi diske kaydedilmeden gelen görüntüler için kullanılır.
+    """
+    gray = get_grayscale(img)
+    thresh = thresholding(gray)
+    deskewed = deskew(thresh)
+    return deskewed
+
 def preprocess_for_ocr(image_path, save_debug=False):
     # Görüntü iyileştirme adımlarını sırayla uygular, save_debug=True verilirse debug için sonucu diske kaydeder.
     img = cv2.imread(image_path)
     if img is None:
         raise ValueError(f"Görüntü bulunamadı veya okunamadı: {image_path}")
         
-    gray = get_grayscale(img)
-    thresh = thresholding(gray)
-    deskewed = deskew(thresh)
+    # Görüntü işleme mantığını yeni fonksiyona devrediyoruz
+    deskewed = preprocess_image_array(img)
     
     if save_debug:
         debug_path = image_path.replace(".", "_preprocessed.")

@@ -8,3 +8,6 @@ uploads/*
 
 ocr_ham_metin.txt
 ocr_parcalanmis_metin.txt
+
+# SLM GGUF ağırlıkları büyük ikili dosyalardır, repoya commit edilmez
+*.gguf

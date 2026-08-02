@@ -1,6 +1,7 @@
 fastapi
 uvicorn
 python-multipart
+pydantic
 
 easyocr
 faiss-cpu
@@ -8,3 +9,6 @@ sentence-transformers
 torch
 torchvision
 opencv-python-headless
+
+# SLM (Ollama) istemcisi için - ağır ML bağımlılığı gerektirmez
+httpx

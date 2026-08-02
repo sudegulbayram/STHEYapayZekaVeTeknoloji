@@ -1,0 +1,9 @@
+--- orig/STHEYapayZekaVeTeknoloji-main/backend/.gitignore	2026-07-30 19:07:19.000000000 +0000
++++ project/STHEYapayZekaVeTeknoloji-main/backend/.gitignore	2026-08-01 12:19:29.349796932 +0000
+@@ -8,3 +8,6 @@
+ 
+ ocr_ham_metin.txt
+ ocr_parcalanmis_metin.txt
++
++# SLM GGUF ağırlıkları büyük ikili dosyalardır, repoya commit edilmez
++*.gguf

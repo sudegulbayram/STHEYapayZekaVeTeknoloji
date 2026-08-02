@@ -1,0 +1,26 @@
+# Ollama Modelfile - Hukuk Danismani SLM
+#
+# Taban model: Qwen2.5-3B-Instruct (Ollama kütüphanesinden çekilir)
+# Üzerine binen: fine-tune edilmiş LoRA adaptörü, GGUF formatında
+#   (veribootcamp-model-finetune-v2/output/hukuk_model_gguf/*-lora.gguf)
+#
+# Kullanim:
+#   1) LoRA'yi GGUF'a cevirin (bkz. export_gguf.py ya da "local finetune.py"
+#      script'inin son adimi -> output/hukuk_model_gguf/)
+#   2) Bu dosyadaki ADAPTER yolunu o GGUF dosyasina isaret edecek sekilde
+#      duzenleyin (varsayilan: ayni klasordeki hukuk_model_lora.gguf)
+#   3) ollama create hukuk-danismani-slm -f Modelfile
+#   4) ollama serve  (arka planda calisir durumda kalmali)
+#
+# Backend, OLLAMA_MODEL ortam degiskeni ile bu modelin adini
+# ("hukuk-danismani-slm") kullanarak Ollama'nin /api/chat uc noktasina
+# istek atar (bkz. llm_service.py).
+
+FROM qwen2.5:3b-instruct
+
+ADAPTER ./hukuk_model_lora.gguf
+
+SYSTEM """Sen uzman bir sözleşme danışmanısın. Verilen sözleşme maddesini hukuki olarak analiz et ve Geçerli/Geçersiz olduğuna karar ver."""
+
+PARAMETER temperature 0.2
+PARAMETER num_ctx 2048

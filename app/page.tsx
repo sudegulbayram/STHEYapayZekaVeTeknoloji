@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Send, Paperclip, Bot, User, Activity, FileText, CheckCircle2, ChevronRight, LayoutDashboard, MessageSquare, Terminal, Lock, Mail, ShieldCheck, UserPlus, Users } from "lucide-react";
+import { analyzeDocument, sendChatMessage, toErrorMessage, type RiskMatch } from "./lib/api";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"chat" | "admin" | "admin-register">("chat");
@@ -82,39 +83,71 @@ export default function Home() {
     }
   };
 
-  const handleSendMessage = () => {
+  const formatRiskMatches = (matches: RiskMatch[]) => {
+    if (matches.length === 0) return "";
+    const top = matches.slice(0, 3);
+    return (
+      "\n\nTespit edilen riskli madde eşleşmeleri:\n" +
+      top
+        .map(
+          (m, i) =>
+            `${i + 1}. "${m.belgedeki_madde}" → emsal durum: ${m.validity} (benzerlik: ${Math.round(m.benzerlik_skoru * 100)}%)`
+        )
+        .join("\n")
+    );
+  };
+
+  const handleSendMessage = async () => {
     if (!message && !file) return;
 
     const userMsg = message;
     const currentFile = file;
-    
+
     setChat(prev => [...prev, { sender: "user", text: userMsg, file: currentFile?.name }]);
     setMessage("");
     setFile(null);
     setIsTyping(true);
 
     addLog("Kullanıcı promptu işlendi...", "info");
-    
-    setTimeout(() => {
-      addLog("OCR / Görüntü işleme katmanı çalıştırılıyor...", "loading");
-    }, 600);
 
-    setTimeout(() => {
-      addLog("RAG Pipeline: Metin chunk'lara bölünüp FAISS vektör indeksinde aranıyor...", "loading");
-    }, 1400);
+    try {
+      if (currentFile) {
+        addLog("OCR / Görüntü işleme katmanı çalıştırılıyor...", "loading");
+        addLog("RAG Pipeline: Metin chunk'lara bölünüp FAISS vektör indeksinde aranıyor...", "loading");
+        addLog("SLM (Qwen2.5-3B LoRA): Bulunan bağlam ile hukuki özet üretiliyor...", "loading");
 
-    setTimeout(() => {
-      addLog("DeepSeek API: Sistem promptu ve bulunan bağlam birleştirilerek modele gönderildi...", "loading");
-    }, 2400);
+        const result = await analyzeDocument(currentFile);
 
-    setTimeout(() => {
-      addLog("Model yanıtı başarıyla oluşturuldu ve kullanıcıya iletildi.", "success");
-      setChat(prev => [...prev, { 
-        sender: "ai", 
-        text: "Yüklediğiniz veriyi ve metni DeepSeek & RAG altyapısı ile analiz ettim. Hukuki ve teknik bağlama göre sistem yanıtı hazırlandı." 
-      }]);
+        addLog(
+          `OCR tamamlandı, belge ${result.chunk_count} parçaya ayrıldı, ${result.risk_match_count} riskli eşleşme bulundu.`,
+          "success"
+        );
+
+        let aiText = result.ai_summary
+          ? result.ai_summary
+          : "Belge analiz edildi, ancak SLM özet üretemedi" +
+            (result.ai_summary_error ? `: ${result.ai_summary_error}` : ".");
+
+        aiText += formatRiskMatches(result.risk_matches);
+
+        setChat(prev => [...prev, { sender: "ai", text: aiText }]);
+        addLog("Yanıt kullanıcıya iletildi.", "success");
+      } else {
+        addLog("RAG Pipeline: İlgili emsal maddeler aranıyor...", "loading");
+        addLog("SLM (Qwen2.5-3B LoRA): Yanıt üretiliyor...", "loading");
+
+        const result = await sendChatMessage(userMsg);
+
+        setChat(prev => [...prev, { sender: "ai", text: result.reply }]);
+        addLog("Model yanıtı başarıyla oluşturuldu ve kullanıcıya iletildi.", "success");
+      }
+    } catch (error) {
+      const errorMessage = toErrorMessage(error);
+      addLog(`Hata: ${errorMessage}`, "info");
+      setChat(prev => [...prev, { sender: "ai", text: `Üzgünüm, bir sorun oluştu: ${errorMessage}` }]);
+    } finally {
       setIsTyping(false);
-    }, 3500);
+    }
   };
 
   return (
@@ -129,7 +162,7 @@ export default function Home() {
             </div>
             <div>
               <h2 className="font-bold text-slate-100 text-sm">YZVT Bootcamp</h2>
-              <p className="text-[11px] text-slate-400">Legal AI Assistant</p>
+              <p className="text-[11px] text-slate-400">LexVision</p>
             </div>
           </div>
 
@@ -196,8 +229,8 @@ export default function Home() {
         {activeTab === "chat" && (
           <div className="flex-1 flex flex-col h-full bg-white">
             <div className="h-16 border-b border-slate-200 flex items-center px-8 bg-white justify-between">
-              <h1 className="font-bold text-slate-800 text-lg">Yapay Zeka Sohbet ve Belge/Resim Analizi</h1>
-              <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-medium border border-blue-100">DeepSeek & RAG Entegre</span>
+              <h1 className="font-bold text-slate-800 text-lg">LexVision</h1>
+              <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-medium border border-blue-100">LexVision AI & RAG</span>
             </div>
 
             <div className="flex-1 overflow-y-auto p-8 space-y-6 bg-slate-50/50">
@@ -205,7 +238,7 @@ export default function Home() {
                 <div className="h-full flex flex-col items-center justify-center text-slate-400">
                   <Bot className="w-16 h-16 mb-3 text-slate-300 animate-bounce" />
                   <p className="text-base font-medium text-slate-600">Herkese Açık Asistan: Belge veya resim yükleyip soru sorabilirsiniz.</p>
-                  <p className="text-xs text-slate-400 mt-1">PDF, PNG, JPG, TXT formatları desteklenir.</p>
+                  <p className="text-xs text-slate-400 mt-1">PDF, PNG, JPG, JPEG formatları desteklenir.</p>
                 </div>
               ) : (
                 chat.map((msg, index) => (
@@ -258,7 +291,7 @@ export default function Home() {
               <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-2 pr-3 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100 transition-all">
                 <label className="cursor-pointer p-2.5 hover:bg-slate-200 rounded-lg text-slate-500 transition-colors" title="Dosya veya Resim Yükle">
                   <Paperclip className="w-5 h-5" />
-                  <input type="file" onChange={handleFileChange} className="hidden" accept="image/*,.pdf,.txt" />
+                  <input type="file" onChange={handleFileChange} className="hidden" accept=".pdf,.jpg,.jpeg,.png" />
                 </label>
                 <input 
                   type="text" 
@@ -298,7 +331,7 @@ export default function Home() {
               </div>
               <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800">
                 <p className="text-xs text-slate-400 mb-1">Aktif Model</p>
-                <h3 className="text-2xl font-bold text-purple-400">DeepSeek-V3 / RAG</h3>
+                <h3 className="text-2xl font-bold text-purple-400">Qwen2.5-3B LoRA (SLM)</h3>
               </div>
               <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800">
                 <p className="text-xs text-slate-400 mb-1">Kayıtlı Adminler</p>
